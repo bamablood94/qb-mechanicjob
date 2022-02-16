@@ -452,7 +452,7 @@ local function SpawnListVehicle(model)
     }
 
     QBCore.Functions.SpawnVehicle(model, function(veh)
-        SetVehicleNumberPlateText(veh, "ACBV"..tostring(math.random(1000, 9999)))
+        SetVehicleNumberPlateText(veh, "MECH"..tostring(math.random(1000, 9999)))
         SetEntityHeading(veh, coords.w)
         exports['LegacyFuel']:SetFuel(veh, 100.0)
         TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
@@ -771,7 +771,7 @@ CreateThread(function()
     end
 end)
 
-CreateThread(function()
+--[[CreateThread(function()
     local c = Config.Locations["exit"]
     local Blip = AddBlipForCoord(c.x, c.y, c.z)
     SetBlipSprite (Blip, 446)
@@ -783,6 +783,15 @@ CreateThread(function()
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentSubstringPlayerName("Autocare Mechanic")
     EndTextCommandSetBlipName(Blip)
+end)]]
+
+RegisterNetEvent('mechanic:client:openStash')
+AddEventHandler('mechanic:client:openStash', function()
+    TriggerEvent("inventory:client:SetCurrentStash", "mechanicstash")
+    TriggerServerEvent("inventory:server:OpenInventory", "stash", "mechanicstash", {
+        maxweight = 4000000,
+        slots = 500,
+    })
 end)
 
 CreateThread(function()
@@ -1022,4 +1031,27 @@ CreateThread(function()
             Wait(2000)
         end
     end
+end)
+
+RegisterNetEvent("qb-mechanicjob:client:bill")
+AddEventHandler("qb-mechanicjob:client:bill", function()
+    local bill = exports['qb-input']:ShowInput({
+        header = "Create Receipt",
+        inputs = {
+            {
+                text = "Player ID",
+                name = "recipient",
+                type = "text",
+                isRequired = true
+            },
+            {
+                text = "Amount",
+                name = "billprice",
+                type = "number",
+                isRequired = false
+            },
+        }
+    })
+    if bill == nil then return end
+    TriggerServerEvent("nodus-burgershot:bill:player", bill.recipient, bill.billprice)
 end)
