@@ -794,7 +794,7 @@ AddEventHandler('mechanic:client:openStash', function()
     })
 end)
 
-CreateThread(function()
+--[[CreateThread(function()
     while true do
         local inRange = false
         if LocalPlayer.state.isLoggedIn then
@@ -916,7 +916,7 @@ CreateThread(function()
 
         Wait(3)
     end
-end)
+end)]]
 
 -- CreateThread(function() -- Not event sure what this is even for
 --     while true do
@@ -1031,27 +1031,4 @@ CreateThread(function()
             Wait(2000)
         end
     end
-end)
-
-RegisterNetEvent("qb-mechanicjob:client:bill")
-AddEventHandler("qb-mechanicjob:client:bill", function()
-    local bill = exports['qb-input']:ShowInput({
-        header = "Create Receipt",
-        inputs = {
-            {
-                text = "Player ID",
-                name = "recipient",
-                type = "text",
-                isRequired = true
-            },
-            {
-                text = "Amount",
-                name = "billprice",
-                type = "number",
-                isRequired = false
-            },
-        }
-    })
-    if bill == nil then return end
-    TriggerServerEvent("nodus-burgershot:bill:player", bill.recipient, bill.billprice)
 end)
