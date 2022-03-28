@@ -1,9 +1,14 @@
 Config = {}
 
+-- **** IMPORTANT ****
+-- UseTarget should only be set to true when using qb-target
+Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
+Config.Targets = {}
+
 Config.AttachedVehicle = nil
 
 Config.AuthorizedIds = {
-    "insertcitizenidhere",
+    -- "insertcitizenidhere",
 }
 
 Config.MaxStatusValues = {
@@ -72,7 +77,23 @@ Config.Businesses = {
 
 Config.Plates = {
     [1] = {
-        coords = vector4(-340.95, -128.24, 39, 160.46),
+        coords = vector4(-340.95, -128.24, 39, 160.0),
+        boxData = {
+            heading = 340,
+            length = 5,
+            width = 2.5,
+            debugPoly = false
+        },
+        AttachedVehicle = nil,
+    },
+    [2] = {
+        coords = vector4(-326.78, -144.82, 39.06, 70),
+        boxData = {
+            heading = 249,
+            length = 6.5,
+            width = 5,
+            debugPoly = false
+        },
         AttachedVehicle = nil,
     },
 }
